@@ -1,0 +1,197 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        #app {
+            width: 100%;
+            height: 55vw;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #text {
+            display: block;
+            float: left;
+            width: 70%;
+            height: 62vw;
+            text-align: center;
+            font-size: calc(9% + 9vw);
+            padding-top: 5vw
+        }
+
+        BUTTON {
+            width: 30%;
+            float: right;
+            height: 20vw;
+            font-size: 7vw;
+        }
+
+        #buttons {
+            height: 62vw
+        }
+
+        #answer {
+            display: none;
+        }
+
+        #right {
+            display: none;
+        }
+
+        #wrong {
+            display: none;
+        }
+    </style>
+    <meta charset="utf-8"/>
+    <title></title>
+</head>
+<body style="overflow:hidden;">
+<div id="app">
+    <div id="text">
+        <p id="question"></p>
+
+        <p id="answer"></p>
+    </div>
+    <div id="buttons">
+        <button id="next" onclick="answerAction();">Next</button>
+        <button id="right" onclick="rightAnswerAction();">Right</button>
+        <button id="wrong" onclick="wrongAnswerAction();">Wrong</button>
+    </div>
+    <span id="counter">2</span>
+</div>
+<script>
+    allVerbs = JSON.parse('[["пребывать; держаться","abide","abode; abided","abode; abided"  ],["подняться; возникнуть","arise","arose","arisen"  ],["будить; проснуться","awake","awoke","awaked; awoke"  ],["клеветать","backbite","backbitten","backbitten"  ],                ["отпадать","backslide","backslid","backslid"  ],["быть","be","was; were","been"  ],["родить","bear","bore","born; borne"  ],["бить","beat","beat","beaten"  ],["становиться","become","became","become"  ],["случиться","befall","befell","befallen"  ],["порождать","beget","begot; begat","begotten"  ],["начинать","begin","began","begun"  ],["опоясывать","begird","begirt","begirt"  ],["зреть","behold","beheld","beheld"  ],["наклоняться (в стороны)","bend","bent","bent; bended"  ],["лишать","bereave","bereft; bereaved","bereft; bereaved"  ],["умолять; упрашивать","beseech","besought; beseeched","besought; beseeched"  ],["осаждать","beset","beset","beset"  ],["заказывать","bespeak","bespoke","bespoke; bespoken"  ],["заплевывать","bespit","bespat","bespat"  ],["садиться; сидеть верхом","bestride","bestrode","bestridden"  ],["держать пари","bet","bet; betted","bet; betted"  ],["приниматься; отправляться","betake","betook","betaken"  ],["велеть; просить","bid","bad; bade; bid","bid; bidden"  ],["связать","bind","bound","bound"  ],["кусать","bite","bit","bit; bitten"  ],["кровоточить","bleed","bled","bled"  ],["благословлять","bless","blessed","blessed; blest"  ],["дуть","blow","blew","blown; blowed"  ],["(с)ломать","break","broke","broken"  ],["выращивать","breed","bred","bred"  ],["приносить","bring","brought","brought"  ],["распространять; разбрасывать","broadcast","broadcast","broadcast"  ],["запугивать","browbeat","browbeat","browbeaten"  ],["строить","build","built","built"  ],["жечь; гореть","burn","burnt; burned","burnt; burned"  ],["разразиться; взорваться","burst","burst","burst"  ],["разжаловать","bust","bust; busted","bust; busted"  ],["покупать","buy","bought","bought"  ],["мочь; уметь","can","could","could"  ],["кинуть","cast","cast","cast"  ],["ловить,успеть","catch","caught","caught"  ],["бранить","chide","chid; chided","chid; chided; chidden"  ],["выбирать","choose","chose","chosen"  ],["рассечь","cleave","clove; cleft; cleaved","cloven; cleft; cleaved"  ],["цепляться","cling","clung","clung"  ],["приходить","come","came","come"  ],["стоить","cost","cost","cost"  ],["зенковать","countersink","countersank","countersunk"  ],["ползти","creep","crept","crept"  ],["петь","crow","crowed; crew","crowed"  ],["резать","cut","cut","cut"  ],["сметь","dare","durst; dared","dared"  ],["иметь дело","deal","dealt","dealt"  ],["копать","dig","dug","dug"  ],["нырять; погружаться","dive","dived; dove","dived"  ],["делать","do","did","done"  ],["рисовать, тащить","draw","drew","drawn"  ],["грезить, мечтать","dream","dreamt; dreamed","dreamt; dreamed"  ],["пить","drink","drank","drunk" ],["водить (машину etc.)","drive","drove","driven"  ],["обитать; задерживаться","dwell","dwelt","dwelt"  ],["кушать; есть","eat","ate","eaten"  ],["падать","fall","fell","fallen"  ],["кормить","feed","fed","fed"  ],["чувствовать","feel","felt","felt"  ],["сражаться; бороться","fight","fought","fought"  ],["находить","find","found","found"  ],["подходить по размеру","fit","fit","fit"  ],["бежать; спасаться","flee","fled","fled"  ],["бросить","fling","flung","flung"  ],["освещать прожектором","floodlight","floodlighted; floodlit","floodlighted; floodlit"  ],["летать","fly","flew","flown"  ],["воздерживаться","forbear","forbore","forborne"  ],["запрещать","forbid","forbad; forbade","forbidden"  ],["предсказывать","forecast","forecast; forecasted","forecast; forecasted"  ],["предвидеть","foresee","foresaw","foreseen"  ],["предсказывать","foretell","foretold","foretold"  ],["забывать","forget","forgot","forgotten"  ],["прощать","forgive","forgave","forgiven"  ],["покидать","forsake","forsook","forsaken"  ],["отрекаться","forswear","forswore","forsworn"  ],["замерзать","freeze","froze","frozen"  ],["отрицать; противоречить","gainsay","gainsaid","gainsaid"  ],["получать","get","got","got"  ],["позолотить","gild","gilt; gilded","gilt; gilded"  ],["опоясывать","gird","girded; girt","girded; girt"  ],["давать","give","gave","given"  ],["идти","go","went","gone"  ],["гравировать","grave","graved","graved; graven"  ],["точить; молоть","grind","ground","ground"  ],["расти","grow","grew","grown"  ],["подрезать поджилки","hamstring","hamstringed; hamstrung","hamstringed; hamstrung"  ],["вешать","hang","hung; hanged","hung; hanged"  ],["иметь","have","had","had"  ],["слушать","hear","heard","heard"  ],["подымать(ся)","heave","heaved; hove","heaved; hove"  ],["рубить; тесать","hew","hewed","hewed; hewn"  ],["прятать(ся)","hide","hid","hidden"  ],["ударять; попадать в цель","hit","hit","hit"  ],["держать","hold","held","held"  ],["причинить боль","hurt","hurt","hurt"  ],["вкладывать; выстилать","inlay","inlaid","inlaid"  ],["входить","input","input; inputted","input; inputted"  ],["вставлять; вкладывать","inset","inset","inset"  ],["воткать","interweave","interwove","interwoven"  ],["хранить; содержать","keep","kept","kept"  ],["знать; узнавать по виду","ken","kenned; kent","kenned"  ],["стоять на коленях","kneel","knelt; kneeled","knelt; kneeled"  ],["вязать","knit","knit; knitted","knit; knitted"  ],["знать","know","knew","known"  ],["грузить","lade","laded","laded; laden"  ],["класть; положить","lay","laid","laid"  ],["вести","lead","led","led"  ],["опираться; прислоняться","lean","leant; leaned","leant; leaned"  ],["прыгать","leap","leapt; leaped","leapt; leaped"  ],["учить","learn","learnt; learned","learnt; learned"  ],["оставить","leave","left","left"  ],["одалживать","lend","lent","lent"  ],["позволять","let","let","let"  ],["лежать","lie","lay","lain"  ],["освещать","light","lit; lighted","lit; lighted"  ],["терять","lose","lost","lost"  ],["делать; производить","make","made","made"  ],["мочь; иметь возможность","may","might","might"  ],["подразумевать","mean","meant","meant"  ],["встретить","meet","met","met"  ],["неправильно распределять роли","miscast","miscast","miscast"  ],["поступать неправильно","misdeal","misdealt","misdealt"  ],["внушать опасения","misgive","misgave","misgiven"  ],["ослышаться","mishear","misheard","misheard"  ],["промахнуться","mishit","mishit","mishit"  ],["класть не на место","mislay","mislaid","mislaid"  ],["ввести в заблуждение","mislead","misled","misled"  ],["неправильно истолковывать","misread","misread","misread"  ],["писать с ошибками","misspell","misspelt; misspeled","misspelt; misspeled"  ],["экономить","misspend","misspent","misspent"  ],["ошибаться","mistake","mistook","mistaken"  ],["неправильно понимать","misunderstand","misunderstood","misunderstood"  ],["косить","mow","mowed","mown; mowed"  ],["перебивать цену","outbid","outbid","outbid"  ],["превосходить","outdo","outdid","outdone"  ],["побеждать (в бою)","outfight","outfought","outfought"  ],["вырастать из","outgrow","outgrew","outgrown"  ],["выходить","output","output; outputted","output; outputted"  ],["перегонять; опережать","outrun","outran","outrun"  ],["продавать лучше или дороже","outsell","outsold","outsold"  ],["затмевать","outshine","outshone","outshone"  ],["повелевать","overbid","overbid","overbid"  ],["компенсировать","overcome","overcame","overcome"  ],["пережари(ва)ть","overdo","overdid","overdone"  ],["превышать","overdraw","overdrew","overdrawn"  ],["объедаться","overeat","overate","overeaten"  ],["перелетать","overfly","overflew","overflown"  ],["нависать","overhang","overhung","overhung"  ],["подслуш(ив)ать","overhear","overheard","overheard"  ],["покры(ва)ть","overlay","overlaid","overlaid"  ],["переплачивать","overpay","overpaid","overpaid"  ],["отвергать; отклонять","override","overrode","overridden"  ],["переливаться через край","overrun","overran","overrun"  ],["надзирать за","oversee","oversaw","overseen"  ],["расстрелять","overshoot","overshot","overshot"  ],["прос(ы)пать","oversleep","overslept","overslept"  ],["догонять","overtake","overtook","overtaken"  ],["свергать","overthrow","overthrew","overthrown"  ],["принимать участие","partake","partook","partaken"  ],["платить","pay","paid","paid"  ],["обращаться к суду","plead","pleaded; pled","pleaded; pled"  ],["платить вперед","prepay","prepaid","prepaid"  ],["доказывать; оказаться","prove","proved","proved; proven"  ],["класть","put","put","put"  ],["покидать; оставлять; выходить","quit","quit; quitted","quit; quitted"  ],["читать","read","read; red","read; red"  ],["перевязывать","rebind","rebound","rebound"  ],["перестроить","rebuild","rebuilt","rebuilt"  ],["видоизменять; преобразовывать","recast","recast","recast"  ],["повторять сделанное","redo","redid","redone"  ],["слушать вторично","rehear","reheard","reheard"  ],["переделывать","remake","remade","remade"  ],["раздирать","rend","rent","rent"  ],["отдавать долг","repay","repaid","repaid"  ],["выполнять повторно","rerun","reran","rerun"  ],["перепродавать","resell","resold","resold"  ],["возвращать","reset","reset","reset"  ],["пересиживать","resit","resat","resat"  ],["забирать","retake","retook","retaken"  ],["пересказывать","retell","retold","retold"  ],["пере(за)писать","rewrite","rewrote","rewritten"  ],["избавлять","rid","rid; ridded","rid; ridded"  ],["ездить верхом","ride","rode","ridden"  ],["звонить","ring","rang","rung"  ],["подняться","rise","rose","risen"  ],["расщеплять","rive","rived","riven"  ],["бежать; течь","run","ran","run"  ],["пилить","saw","sawed","sawn; sawed"  ],["говорить; сказать","say","said","said"  ],["видеть","see","saw","seen"  ],["искать","seek","sought","sought"  ],["продавать","sell","sold","sold"  ],["посылать","send","sent","sent"  ],["ставить; устанавливать","set","set","set"  ],["шить","sew","sewed","sewed; sewn"  ],["трясти","shake","shook","shaken"  ],["брить(ся)","shave","shaved","shaved; shaven"  ],["стричь","shear","sheared","shorn; sheared"  ],["проливать","shed","shed","shed"  ],["светить; сиять","shine","shone; shined","shone; shined"  ],["обувать; подковывать","shoe","shod","shod"  ],["стрелять; давать побеги","shoot","shot","shot"  ],["показывать","show","showed","shown; showed"  ],["кромсать; расползаться","shred","shred; shredded","shred; shredded"  ],["сокращаться; сжиматься; отпрянуть","shrink","shrank; shrunk","shrunk"  ],["исповедовать","shrive","shrove; shrived","shriven; shrived"  ],["закрывать","shut","shut","shut"  ],["петь","sing","sang","sung"  ],["опускаться; погружаться; тонуть","sink","sank","sunk"  ],["сидеть","sit","sat","sat"  ],["убивать","slay","slew","slain"  ],["спать","sleep","slept","slept"  ],["скользить","slide","slid","slid"  ],["швырять; подвешивать","sling","slung","slung"  ],["идти крадучись","slink","slunk","slunk"  ],["раздирать(ся); разрезать (вдоль)","slit","slit","slit"  ],["пахнуть; нюхать","smell","smelt; smelled","smelt; smelled"  ],["ударять; разбивать","smite","smote","smitten"  ],["(по)сеять","sow","sowed","sowed; sown"  ],["говорить","speak","spoke","spoken"  ],["ускорять; спешить","speed","sped; speeded","sped; speeded"  ],["писать или читать по буквам","spell","spelt; spelled","spell; spelled"  ],["тратить","spend","spent","spent"  ],["проливать","spill","spilt; spilled","spilt; spilled"  ],["прясть","spin","spun; span","spun"  ],["плевать","spit","spat; spit","spat; spit"  ],["расщепить(ся)","split","split","split"  ],["портить","spoil","spoilt; spoiled","spoilt; spoiled"  ],["осветить","spotlight","spotlit; spotlighted","spotlit; spotlighted"  ],["распространиться","spread","spread","spread"  ],["вскочить; возникнуть","spring","sprang","sprung"  ],["стоять","stand","stood","stood"  ],["проламывать; разби(ва)ть","stave","staved; stove","staved; stove"  ],["красть","steal","stole","stolen"  ],["уколоть; приклеить","stick","stuck","stuck"  ],["жалить","sting","stung","stung"  ],["вонять","stink","stank; stunk","stunk"  ],["усеять; устлать","strew","strewed","strewn; strewed"  ],["шагать; наносить удар","stride","strode","stridden"  ],["ударить; бить; бастовать","strike","struck","struck"  ],["нанизать; натянуть","string","strung","strung"  ],["стараться","strive","strove","striven"  ],["передавать в субаренду","sublet","sublet","sublet"  ],["(по)клясться; присягнуть","swear","swore","sworn"  ],["мести; промчаться","sweep","swept","swept"  ],["разбухать","swell","swelled","swollen; swelled"  ],["плавать","swim","swam","swum"  ],["качаться","swing","swung","swung"  ],["взять; брать","take","took","taken"  ],["учить","teach","taught","taught"  ],["рвать","tear","tore","torn"  ],["рассказывать; сказать","tell","told","told"  ],["думать","think","thought","thought"  ],["процветать","thrive","throve; trived","thriven; trived"  ],["бросить","throw","threw","thrown"  ],["толкнуть; сунуть","thrust","thrust","thrust"  ],["ступать","tread","trod","trod; trodden"  ],["разогнуть(ся)","unbend","unbent","unbent"  ],["снижать цену","underbid","underbid","underbid"  ],["сбивать цены","undercut","undercut","undercut"  ],["проходить; подвергаться","undergo","underwent","undergone"  ],["лежать в основе","underlie","underlay","underlain"  ],["оплачивать слишком низко","underpay","underpaid","underpaid"  ],["продавать дешевле","undersell","undersold","undersold"  ],["понимать","understand","understood","understood"  ],["предпринять","undertake","undertook","undertaken"  ],["подписыва(ть)ся","underwrite","underwrote","underwritten"  ],["уничтожать сделанное","undo","undid","undone"  ],["размораживать","unfreeze","unfroze","unfrozen"  ],["брать назад свои слова","unsay","unsaid","unsaid"  ],["развертывать","unwind","unwound","unwound"  ],["поддерживать","uphold","upheld","upheld"  ],["опрокинуть(ся)","upset","upset","upset"  ],["просыпаться; будить","wake","woke; waked","woken; waked"  ],["подстерегать","waylay","waylaid","waylaid"  ],["носить (одежду)","wear","wore","worn"  ],["ткать","weave","wove; weaved","woven; weaved"  ],["выдавать замуж","wed","wed; wedded","wed; wedded"  ],["плакать","weep","wept","wept"  ],["мочить; увлажнять","wet","wet; wetted","wet; wetted"  ],["выигрывать","win","won","won"  ],["заводить (механизм)","wind","wound","wound"  ],["взять назад; отозвать","withdraw","withdrew","withdrawn"  ],["удерживать","withhold","withheld","withheld"  ],["противиться","withstand","withstood","withstood"  ],["скрутить; сжать","wring","wrung","wrung"  ],["писать","write","wrote","written"  ]]');
+    //allVerbs = "be/was, were/been/Быть;beat/beat/beaten/Бить;become/became/become/Становиться;begin/began/begun/Начинать;bleed/bled/bled/Кровоточить;blow/blew/blown/Дуть;break/broke/broken/Ломать;bring/brought/brought/Приносить;build/built/built/Строить;burn/burnt/burnt/Гореть;burst/burst/burst/Взрываться;buy/bought/bought/Покупать;catch/caught/caught/Ловить, хватать, успеть;choose/chose/chosen/Выбирать;come/came/come/Приходить;cost/cost/cost/Стоить;creep/crept/crept/Ползать;cut/cut/cut/Резать;do/did/done/Делать;draw/drew/drawn/Рисовать, тащить;dream/dreamt/dreamt/Мечтать, дремать;drink/drank/drunk/Пить;drive/drove/driven/Водить(машину);eat/ate/eaten/Есть;fall/fell/fallen/Падать;feed/fed/fed/Кормить;feel/felt/felt/Чувствовать;fight/fought/fought/Бороться;find/found/found/Находить;fit/fit/fit/Подходить по размеру;fly/flew/flown/Летать;forget/forgot/forgotten/Забывать;forgive/forgave/forgiven/Прощать;freeze/froze/frozen/Замерзать;get/got/got/Получать;give/gave/given/Давать;go/went/gone/Идти;grow/grew/grown/Расти;hang/hung/hung/Вешать;have/had/had/Иметь;hear/heard/heard/Слышать;hide/hid/hidden/Прятать;hit/hit/hit/Попадать в цель;hold/held/held/Держать;hurt/hurt/hurt/Причинитьболь;keep/kept/kept/Держать(хранить);kneel/knelt/knelt/Стоять на коленях;know/knew/known/Знать;lay/laid/laid/Класть;lead/led/led/Вести;lean/leant/leant/Наклоняться;learn/learnt/learnt/Учить;leave/left/left/Оставлять;lend/lent/lent/Давать в займы;let/let/let/Позволять;lie/lay/lain/Лежать;light/lit/lit/Освещать;lose/lost/lost/Терять;make/made/made/Производить;mean/meant/meant/Значить;meet/met/met/Встречать;mistake/mistook/mistaken/Ошибаться;pay/paid/paid/Платить;prove/proved/proven/Доказывать;put/put/put/Положить;quit/quit/quit/Покидать(бросать);read/read/read/Читать;ride/rode/ridden/Ездить верхом;ring/rang/rung/Звенеть;rise/rose/risen/Подниматься;run/ran/run/Бежать;say/said/said/Говорить;see/saw/seen/Видеть;seek/sought/sought/Искать;sell/sold/sold/Продавать;send/sent/sent/Посылать;set/set/set/Ставить;sew/sewed/sewn/Шить;shake/shook/shaken/Встряхивать;show/showed/shown/Показывать;shrink/shrank/shrunk/Сжиматься;shut/shut/shut/Закрывать;sing/sang/sung/Петь;sink/sank/sunk/Тонуть;sit/sat/sat/Сидеть;sleep/slept/slept/Спать;slide/slid/slid/Скользить;sow/sowed/sown/Сеять;speak/spoke/spoken/Говорить;spell/spelt/spelt/Произносить по буквам;spend/spent/spent/Тратить;spill/spilt/spilt/Проливать;spoil/spoilt/spoilt/Портить;spread/spread/spread/Расстилать;spring/sprang/sprung/Прыгать;stand/stood/stood/Стоять;steal/stole/stolen/Красть;stick/stuck/stuck/Колоть;sting/stung/stung/Жалить;sweep/swept/swept/Выметать;swell/swelled/swollen/Разбухать;swim/swam/swum/Плавать;swing/swung/swung/Качать;take/took/taken/Брать, взять;teach/taught/taught/Учить;tear/tore/torn/Рвать;tell/told/told/Рассказывать;think/thought/thought/Думать;throw/threw/thrown/Бросать;understand/understood/understood/Понимать;wake/woke/woken/Просыпаться;wear/wore/worn/Носить(одежду);weep/wept/wept/Плакать;wet/wet/wet/Мочить;win/won/won/Выигрывать;wind/wound/wound/Извиваться;write/wrote/written/Писать";
+    stats = getCookie("verbStats");
+    questionP = document.getElementById("question")
+    answerP = document.getElementById("answer")
+    nextB = document.getElementById("next")
+    rightB = document.getElementById("right")
+    wrongB = document.getElementById("wrong")
+    counterP = document.getElementById("counter")
+    var stat_data = [];
+    var verbsAsId = [];
+    var verbIndex;
+
+    if (!stats) {
+        len = allVerbs.length;
+        i = 0;
+        while (i < len) {
+            stat_data.push(2);
+            i++;
+        }
+        setCookie("verbStats", JSON.stringify(stat_data));
+        //stats.data.verbs = stat_data;
+    } else {
+        stat_data = JSON.parse(getCookie("verbStats"));
+    }
+
+
+    for (var ver in allVerbs) {
+        i = 0;
+        while (i < stat_data[ver]) {
+            verbsAsId.push(ver);
+            i++;
+        }
+    }
+
+    function answerAction() {
+        answerP = document.getElementById("answer")
+        if (answerP.style.display == "none") {
+            answerP.style.display = "block";
+            rightB.style.display = "block";
+            wrongB.style.display = "block";
+            //answer.label = "NEXT";
+        } else {
+            answerP.style.display = "none";
+            rightB.style.display = "none";
+            wrongB.style.display = "none";
+//                    answer.label = "ANSWER";
+            nextVerb();
+        }
+    }
+
+    function nextVerb() {
+        verbIndex = Math.round(((Math.random() * verbsAsId.length) / 5));
+        var nextVerb = allVerbs[verbsAsId[verbIndex]];
+        questionP.innerHTML = nextVerb[0];
+        answerP.innerHTML = nextVerb[1] + "<br />" + nextVerb[2] + "<br />" + nextVerb[3];
+        counterP.innerText = stat_data[verbsAsId[verbIndex]];
+        questionP.style.display = "block";
+        rightB.style.display = "block";
+        wrongB.style.display = "block";
+        //hidePanel2.visible = true;
+    }
+
+    function rightAnswerAction() {
+        var _local3 = verbsAsId[verbIndex];
+        var _local4 = (stat_data[_local3] - 1);
+        stat_data[_local3] = _local4;
+        verbsAsId = deleteById(verbsAsId, verbIndex);
+        setCookie("verbStats", JSON.stringify(stat_data));
+        answerAction();
+    }
+
+
+    function wrongAnswerAction() {
+        var _local3 = verbsAsId[verbIndex];
+        var _local4 = (stat_data[_local3] + 1);
+        stat_data[_local3] = _local4;
+        verbsAsId.push(verbsAsId[verbIndex]);
+        setCookie("verbStats", JSON.stringify(stat_data));
+        answerAction();
+    }
+
+    function deleteById() {
+        verbsAsId[verbIndex] = verbsAsId[(verbsAsId.length - 1)];
+        verbsAsId.pop();
+        return verbsAsId;
+    }
+
+    function getCookie(name) {
+        var matches = document.cookie.match(new RegExp(
+                "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : false;
+    }
+
+    function setCookie(name, value, options) {
+        options = options || {};
+
+        var expires = options.expires;
+
+        if (typeof expires == "number" && expires) {
+            var d = new Date();
+            d.setTime(d.getTime() + expires * 1000);
+            expires = options.expires = d;
+        }
+        if (expires && expires.toUTCString) {
+            options.expires = expires.toUTCString();
+        }
+
+        value = encodeURIComponent(value);
+
+        var updatedCookie = name + "=" + value;
+
+        for (var propName in options) {
+            updatedCookie += "; " + propName;
+            var propValue = options[propName];
+            if (propValue !== true) {
+                updatedCookie += "=" + propValue;
+            }
+        }
+
+        document.cookie = updatedCookie;
+    }
+
+</script>
+</body>
+</html>
