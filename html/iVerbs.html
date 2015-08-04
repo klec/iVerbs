@@ -61,7 +61,7 @@
         <p id="answer"></p>
     </div>
     <div id="buttons">
-        <button id="next" onclick="answerAction();">Next</button>
+        <button id="next" onclick="nextAction();">Next</button>
         <button id="right" onclick="rightAnswerAction();">Right</button>
         <button id="wrong" onclick="wrongAnswerAction();">Wrong</button>
     </div>
@@ -103,18 +103,15 @@
         }
     }
 
-    function answerAction() {
-        answerP = document.getElementById("answer")
+    function toggleAction() {
         if (answerP.style.display == "none") {
             answerP.style.display = "block";
             rightB.style.display = "block";
             wrongB.style.display = "block";
-            //answer.label = "NEXT";
         } else {
             answerP.style.display = "none";
             rightB.style.display = "none";
             wrongB.style.display = "none";
-//                    answer.label = "ANSWER";
             nextVerb();
         }
     }
@@ -125,10 +122,11 @@
         questionP.innerHTML = nextVerb[0];
         answerP.innerHTML = nextVerb[1] + "<br />" + nextVerb[2] + "<br />" + nextVerb[3];
         counterP.innerText = stat_data[verbsAsId[verbIndex]];
-        questionP.style.display = "block";
-        rightB.style.display = "block";
-        wrongB.style.display = "block";
-        //hidePanel2.visible = true;
+
+    }
+
+    function nextAction() {
+        toggleAction();
     }
 
     function rightAnswerAction() {
@@ -137,7 +135,7 @@
         stat_data[_local3] = _local4;
         verbsAsId = deleteById(verbsAsId, verbIndex);
         setCookie("verbStats", JSON.stringify(stat_data));
-        answerAction();
+        toggleAction();
     }
 
 
@@ -147,7 +145,7 @@
         stat_data[_local3] = _local4;
         verbsAsId.push(verbsAsId[verbIndex]);
         setCookie("verbStats", JSON.stringify(stat_data));
-        answerAction();
+        toggleAction();
     }
 
     function deleteById() {
